@@ -41,9 +41,9 @@
     <div class="row">
        <div class="col-md-2"></div>
         <div class="col-md-8">
-        <form class="form-signin" role="form">
+        <form class="form-signin" role="form" action="/those_people/forgetPassword/resetPassword.do" method="POST">
         <h2 class="form-signin-heading">重置密码</h2>
-        <input type="text" class="form-control" placeholder="注册邮箱" required autofocus>
+        <input type="text" class="form-control" placeholder="注册邮箱" id="email" name="email" required autofocus>
         <BR>
         <button class="btn btn-default btn-primary btn-block" type="submit">发送确认邮件</button>
        </form>

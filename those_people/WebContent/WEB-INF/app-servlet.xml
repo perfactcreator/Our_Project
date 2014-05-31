@@ -17,7 +17,7 @@
 	">
 
 	<!-- Auto scan the package for annotation management @Controller -->
-	<context:component-scan base-package="com.thosepeople.controller" />
+	<context:component-scan base-package="com.thosepeople.controller,com.thosepeople.service,com.thosepeople.dao" />
 
 	<!-- Declare explicit support for annotation-driven MVC controllers(@RequestMapping,@Controller) -->
 	<!-- Handler Mapping -->

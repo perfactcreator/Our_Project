@@ -50,10 +50,8 @@ public class Login {
 	@RequestMapping("/loginAccount")
 	public ModelAndView login(@RequestParam("loginEmail") String email,
 			HttpSession session) throws BusinessException {
-		System.out.println("ddddddddddddd");
 		UserInfo userInfo = loginService.getUserDetail(email);
 		session.setAttribute("userInfo", userInfo);
-		System.out.println(userInfo.getNickName()+"ssssss");
 		return new ModelAndView("home").addObject("userInfo", userInfo);
 	}
 }
