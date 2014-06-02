@@ -1,6 +1,7 @@
 package com.thosepeople.service.impl;
 
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.UUID;
 
 import javax.mail.internet.MimeMessage;
@@ -41,7 +42,7 @@ public class GetPasswordServiceImpl implements GetPasswordService{
 			String secretKey= UUID.randomUUID().toString(); 
 			//忽略毫秒数       
 			Timestamp timeout = new Timestamp(System.currentTimeMillis()+30*60*1000);//30分钟后过期         
-			long date = timeout.getTime()/1000;                 
+			long date = timeout.getTime()/1000*1000;                 
 			//保存到数据库       
 			passwordResetInfo.setEmail(email);
 			passwordResetInfo.setSecretKey(secretKey);
@@ -73,7 +74,7 @@ public class GetPasswordServiceImpl implements GetPasswordService{
 		}
 			catch (Exception e){
 			e.printStackTrace(); 
-			returnMessage="邮箱不存在？未知错误,联系管理员吧。";
+			returnMessage="邮箱不存在,请联系管理员";
 			}        
 			return returnMessage;
 	}
@@ -87,20 +88,16 @@ public class GetPasswordServiceImpl implements GetPasswordService{
 			return returnMessage;
 		}
 		try{
-			PasswordResetInfo passwordResetInfo=getPasswordDao.queryResetItemByEmail(email);
-			long  timeOut =passwordResetInfo.getTimeOut();
-			if(timeOut< System.currentTimeMillis()){
-				returnMessage = "链接已经过期,请重新申请找回密码."; 
-				return returnMessage;
-			}else{
+			List<PasswordResetInfo> passwordResetInfoList=getPasswordDao.queryResetItemByEmail(email);
+			for(PasswordResetInfo passwordResetInfo:passwordResetInfoList){
+				long  timeOut =passwordResetInfo.getTimeOut();
 				String key = email+"$"+timeOut+"$"+passwordResetInfo.getSecretKey();
 				String digitalSignature = EncryptUtil.generatePassWord("a", key);
-				if(!digitalSignature.equals(sid)){
-					returnMessage="验证发生错误，请重新请求修改密码";
-					return returnMessage;
+				if(digitalSignature.equals(sid)&&timeOut< System.currentTimeMillis()){
+					return email;
 				}
-				returnMessage = "操作成功,已经发送找回密码链接到您邮箱。请在30分钟内重置密码";
 			}
+			returnMessage="链接已经过期，请重新申请修改密码";
 			
 		}catch(Exception e){
 			e.printStackTrace();

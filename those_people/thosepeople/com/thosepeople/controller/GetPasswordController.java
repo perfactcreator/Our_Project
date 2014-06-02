@@ -7,8 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
-import com.thosepeople.exception.BusinessException;
 import com.thosepeople.service.GetPasswordService;
 
 @Controller
@@ -19,15 +19,22 @@ public class GetPasswordController{
 	GetPasswordService passwordGetService;
 	@RequestMapping(value="/resetPassword")
 //	@ResponseBody 
-	public String resetPassword(HttpServletRequest request,Model model){
+	public ModelAndView resetPassword(HttpServletRequest request,Model model){
 		System.out.println("email======="+request.getParameter("email"));
-		passwordGetService.resetPassword(request);
-		//这里最好跳转到登陆页面，此处需要修改
-		return "redirect:/user/forgetPassword.do";
+		String returnMessage=passwordGetService.resetPassword(request);
+		model.addAttribute("getPasswordReturnMessage", returnMessage);
+		return new ModelAndView("/login");
 	}
 	@RequestMapping(value="/getPassword")
-	public void getPassword(@RequestParam("sid") String sid,
-			@RequestParam("email") String email){
-		passwordGetService.getPassword(sid,email);
+	public ModelAndView getPassword(@RequestParam("sid") String sid,
+			@RequestParam("email") String email,Model model){
+		String returnMessage=passwordGetService.getPassword(sid,email);
+		if(returnMessage.contains("@")){
+			model.addAttribute("email", returnMessage);
+			return new ModelAndView("这里改成修密码修改密码的jsp");
+		}else{
+			model.addAttribute("returnMessage", returnMessage);
+			return new ModelAndView("这里改成修密码修改密码的jsp");
+		}
 	}
 }

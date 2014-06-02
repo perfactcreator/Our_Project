@@ -62,11 +62,11 @@ public class GetPasswordDaoImpl extends JdbcDaoSupport implements GetPasswordDao
 		}, keyHolder);
 	}
 	
-	public PasswordResetInfo queryResetItemByEmail(String email){
+	public List<PasswordResetInfo> queryResetItemByEmail(String email){
 		String querySql="Select email,secret_key,out_of_date_time from password_reset where email=?";
 		List<PasswordResetInfo> queryResult=this.getJdbcTemplate().query(querySql,new Object[]{email}, rowMapper);
         if(!CollectionUtils.isEmpty(queryResult)){
-        	return queryResult.get(0);
+        	return queryResult;
         }
 		return null;
 	}
