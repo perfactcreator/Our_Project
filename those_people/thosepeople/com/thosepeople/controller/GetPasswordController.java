@@ -31,10 +31,15 @@ public class GetPasswordController{
 		String returnMessage=passwordGetService.getPassword(sid,email);
 		if(returnMessage.contains("@")){
 			model.addAttribute("email", returnMessage);
-			return new ModelAndView("这里改成修密码修改密码的jsp");
+			return new ModelAndView("/reset_password");
 		}else{
 			model.addAttribute("returnMessage", returnMessage);
-			return new ModelAndView("这里改成修密码修改密码的jsp");
+			return new ModelAndView("/reset_password");
 		}
+	}
+	@RequestMapping(value="/saveResetPassword")
+	public ModelAndView saveResetPassword(HttpServletRequest request,Model model){
+		boolean isUpdate=passwordGetService.saveResetPassword(request);
+		return new ModelAndView("/login");
 	}
 }

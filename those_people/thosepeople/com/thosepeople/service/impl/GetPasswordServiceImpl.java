@@ -67,8 +67,7 @@ public class GetPasswordServiceImpl implements GetPasswordService{
 			
 //			ClassPathResource  image=new ClassPathResource("pic.png");
 //			helper.addInline("getPasswordLogo", image);
-			mailSender.send(message);
-			
+			mailSender.send(message);		
 			returnMessage = "操作成功,已经发送找回密码链接到您邮箱。请在30分钟内重置密码";           
 			
 		}
@@ -104,5 +103,14 @@ public class GetPasswordServiceImpl implements GetPasswordService{
 		}
 		return returnMessage;
 	}
+	public boolean saveResetPassword(HttpServletRequest request){
+		String email=request.getParameter("email");
+		String passWord=request.getParameter("passWord");
+		String encryptPassWord = EncryptUtil.generatePassWord(email, passWord);
+		int result=getPasswordDao.updatePassword(email,encryptPassWord);
+		System.out.println(result);
+		return true;
+	}
+	
 		
 }

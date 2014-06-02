@@ -70,4 +70,9 @@ public class GetPasswordDaoImpl extends JdbcDaoSupport implements GetPasswordDao
         }
 		return null;
 	}
+	public int updatePassword(String email,String encryptPassWord){
+		String updatePasswordSql="update user set password=? where email=?";
+		return this.getJdbcTemplate().update(updatePasswordSql,new Object[] { email, encryptPassWord});
+		
+	}
 }

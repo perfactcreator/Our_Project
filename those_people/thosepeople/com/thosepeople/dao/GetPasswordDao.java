@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface GetPasswordDao {
-	void insertResetItem(String email,String secretKey,long outOfDateTime);
-	List<PasswordResetInfo> queryResetItemByEmail(String email);
+	public void insertResetItem(String email,String secretKey,long outOfDateTime);
+	public List<PasswordResetInfo> queryResetItemByEmail(String email);
+	public int updatePassword(String email,String encryptPassWord);
 }

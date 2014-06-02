@@ -10,4 +10,5 @@ import com.thosepeople.exception.BusinessException;
 public interface GetPasswordService {
 	public String resetPassword(HttpServletRequest request);
 	public String getPassword(String sid,String email);
+	public boolean saveResetPassword(HttpServletRequest request);
 }
