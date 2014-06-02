@@ -6,6 +6,12 @@ import com.thosepeople.model.PasswordResetInfo;
 
 import org.springframework.stereotype.Repository;
 
+/**
+ * @author wenxiaobing
+ * 
+ */
+
+
 @Repository
 public interface GetPasswordDao {
 	public void insertResetItem(String email,String secretKey,long outOfDateTime);

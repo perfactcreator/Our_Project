@@ -2,9 +2,13 @@ package com.thosepeople.service;
 
 import javax.servlet.http.HttpServletRequest;
 
+
 import org.springframework.stereotype.Service;
 
-import com.thosepeople.exception.BusinessException;
+/**
+ * @author wenxiaobing
+ * 
+ */
 
 @Service
 public interface GetPasswordService {

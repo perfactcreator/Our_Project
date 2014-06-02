@@ -21,6 +21,11 @@ import com.mysql.jdbc.Statement;
 import com.thosepeople.dao.GetPasswordDao;
 import com.thosepeople.model.PasswordResetInfo;
 
+/**
+ * @author wenxiaobing
+ * 
+ */
+
 @Repository
 public class GetPasswordDaoImpl extends JdbcDaoSupport implements GetPasswordDao{
 	//@Resource(name="dataSource")
@@ -63,7 +68,7 @@ public class GetPasswordDaoImpl extends JdbcDaoSupport implements GetPasswordDao
 	}
 	
 	public List<PasswordResetInfo> queryResetItemByEmail(String email){
-		String querySql="Select email,secret_key,out_of_date_time from password_reset where email=?";
+		String querySql="Select email,secret_key,time_out from password_reset where email=?";
 		List<PasswordResetInfo> queryResult=this.getJdbcTemplate().query(querySql,new Object[]{email}, rowMapper);
         if(!CollectionUtils.isEmpty(queryResult)){
         	return queryResult;
@@ -72,7 +77,7 @@ public class GetPasswordDaoImpl extends JdbcDaoSupport implements GetPasswordDao
 	}
 	public int updatePassword(String email,String encryptPassWord){
 		String updatePasswordSql="update user set password=? where email=?";
-		return this.getJdbcTemplate().update(updatePasswordSql,new Object[] { email, encryptPassWord});
+		return this.getJdbcTemplate().update(updatePasswordSql,new Object[] {encryptPassWord, email});
 		
 	}
 }

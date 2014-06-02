@@ -1,5 +1,10 @@
 package com.thosepeople.model;
 
+/**
+ * @author wenxiaobing
+ * 
+ */
+
 public class PasswordResetInfo {
 	int id;
 	String email;

@@ -18,6 +18,11 @@ import com.thosepeople.service.GetPasswordService;
 import com.thosepeople.service.RegisterService;
 import com.thosepeople.util.EncryptUtil;
 
+/**
+ * @author wenxiaobing
+ * 
+ */
+
 
 @Service
 public class GetPasswordServiceImpl implements GetPasswordService{
@@ -53,7 +58,7 @@ public class GetPasswordServiceImpl implements GetPasswordService{
 			String digitalSignature = EncryptUtil.generatePassWord("a", key);
 			String path = request.getContextPath();         
 			String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";          
-			String resetPassHref =  basePath+"forgetPassword/getPassword?sid="+digitalSignature+"&email="+email; 
+			String resetPassHref =  basePath+"forgetPassword/getPassword.do?sid="+digitalSignature+"&email="+email; 
 			String emailContent = "点击下面的链接,重设密码<br/><a href="+resetPassHref +" target='_BLANK'>点击我重新设置密码</a>" +             
 			"<br/>本邮件超过30分钟,链接将会失效，需要重新申请'找回密码'";
 			
@@ -105,10 +110,11 @@ public class GetPasswordServiceImpl implements GetPasswordService{
 	}
 	public boolean saveResetPassword(HttpServletRequest request){
 		String email=request.getParameter("email");
-		String passWord=request.getParameter("passWord");
+		String passWord=request.getParameter("newPassword");
 		String encryptPassWord = EncryptUtil.generatePassWord(email, passWord);
+		System.out.println("encryptPassWord===="+encryptPassWord);
 		int result=getPasswordDao.updatePassword(email,encryptPassWord);
-		System.out.println(result);
+		System.out.println("result===="+result);
 		return true;
 	}
 	
